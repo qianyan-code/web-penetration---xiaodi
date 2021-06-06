@@ -1,3 +1,4 @@
+#直接访问xiaodi.com时的请求数据包
 #Request Headers
 GET / HTTP/1.1
 Host: xiaodi8.com
@@ -9,3 +10,22 @@ Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/w
 Accept-Encoding: gzip, deflate
 Accept-Language: zh-CN,zh;q=0.9
 Cookie: ZDEDebuggerPresent=php,phtml,php3; timezone=8
+
+#在xiaodi8.com搜索1之后出现的请求数据包
+#Request Headers
+POST /zb_system/cmd.php?act=search HTTP/1.1
+Host: xiaodi8.com
+Connection: keep-alive
+Content-Length: 3
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+Origin: http://xiaodi8.com
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://xiaodi8.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: ZDEDebuggerPresent=php,phtml,php3; timezone=8
+
+q: 1

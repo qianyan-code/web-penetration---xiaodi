@@ -4,6 +4,8 @@
 
 ### 安装vmware tools
 
+进入系统，点击虚拟机-->安装tools，等待系统弹出tools的压缩包，将压缩包中的文件夹提取到桌面上，进入文件夹运行.pl文件，安装tools，第一个询问输入yes，之后一直回车就好了
+
 ### 换源
 
 ```
@@ -81,4 +83,134 @@ sudo vim /etc/apt/sources.list
   sudo apt-get update
   ```
 
-  
+### docker安装
+
+注意：这里的命令的**运行顺序不能变**，
+
+- 安装vim、curl
+
+```
+sudo apt install vim
+```
+
+```
+sudo apt install curl
+```
+
+- 安装pip
+
+```
+curl -s https://bootstrap.pypa.io/get-pip.py | python3
+```
+
+- 安装docker
+
+```
+curl -s https://get.docker.com/ | sh
+```
+
+### 更换docker源
+
+更换docker源需要修改docker/daemon.json文件，有的环境在安装了docker之后etc文件夹下面有可能没有docker文件夹，这个时候就需要自己创建文件。
+
+文件创建好之后，修改daemon.json文件，添加源：
+
+```
+sudo vim daemon.json
+```
+
+源：
+
+```
+{
+ "registry-mirrors": [
+  "https://hub-mirror.c.163.com",
+  "https://ustc-edu-cn.mirror.aliyuncs.com",
+  "https://ghcr.io",
+  "https://mirror.baidubce.com"
+ ]
+}
+```
+
+重启docker
+
+```
+service docker restart
+```
+
+### 安装docker-composer
+
+```
+sudo pip install docker-compose 
+```
+
+### 获取vulhub
+
+- 安装git
+
+```
+sudo apt install git
+```
+- 克隆vulhub库
+
+```
+git clone https://github.com/vulhub/vulhub.git
+```
+
+### 漏洞复现
+
+- 进入一个漏洞/环境目录
+
+```
+cd vulhub/httpd/CVE-2017-15715
+```
+
+- 自动化编译环境
+
+```
+sudo docker-compose build
+```
+
+- 启动整个环境
+
+```
+sudo docker-compose up -d
+sudo docker-compose config	//查看运行的端口
+```
+
+- 查看本地ip地址
+
+```
+ifconfig
+```
+
+（ens33中的inet addr属性的值）
+
+![网站复现1](imgs\网站复现1.png)
+
+- 在浏览器中访问
+
+![网站复现2](imgs\网站复现2.png)
+
+- 删除整个环境
+
+```
+sudo docker-compose down -v
+```
+
+### 总结
+
+```
+vulhub靶场，可以复现各种各样的中间件的漏
+```
+
+
+
+### 参考博客
+
+```
+https://www.cnblogs.com/jerrylocker/p/10818650.html
+https://www.cnblogs.com/jerrylocker/p/10818650.html
+https://cloud.tencent.com/developer/article/1769231
+```
+

@@ -160,7 +160,7 @@
   
     使用nmap进行扫描，可以发现服务器上有mysql 5.5.23，说明环境搭建成功。
   
-    ![case2](C:\Users\26554\Desktop\xiaodi-master\05.SystemAndDatabase\imgs\case2.png)
+    ![case2](imgs\case2.png)
   
     使用批处理命令远程登录mysql
   
@@ -168,7 +168,7 @@
     for i in `seq 1 1000`; do mysql -uroot -pwrong -h your-ip -P3306 ; done
     ```
   
-    ![case3](C:\Users\26554\Desktop\xiaodi-master\05.SystemAndDatabase\imgs\case3.png)
+    ![case3](imgs\case3.png)
   
     登录成功，漏洞复现完成，删除环境
   
@@ -189,10 +189,11 @@
         sudo docker-compose build 
 
     
+
 环境搭建
     
         sudo docker-compose up -d
-    
+
 - 漏洞复现
   
     发送如下数据包，即可读取```/etc/passwd```:

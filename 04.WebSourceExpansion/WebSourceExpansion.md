@@ -64,11 +64,11 @@
 
   - 在网站下方可以看到一些关键字
 
-  ![case2](C:\Users\26554\Desktop\xiaodi-master\04.WebSourceExpansion\imgs\case2.png)
+  ![case2](imgs\case2.png)
 
   - 根据这个关键字，在浏览器中找到相应源码，在源码中可以找到asp程序特有的mdb文件
 
-  ![case3](C:\Users\26554\Desktop\xiaodi-master\04.WebSourceExpansion\imgs\case3.png)
+  ![case3](imgs\case3.png)
 
   - 根据mdb文件，可以找到和管理员相关的表
 

@@ -25,7 +25,7 @@
   DES：与base64类似，密文中会出现+号
   ```
 
-  ![AES加密方式](C:\Users\26554\Desktop\xiaodi-master\06.EncryptAlgorithm\imgs\AES加密方式.png)
+  ![AES加密方式](imgs\AES加密方式.png)
 
 - 常见加密形式算法解析
 
@@ -40,8 +40,125 @@
   https://cmd5.com/
   ```
 
-  
-
 - 了解常规加密算法的特性
 
   长度位数、字符规律、代码分析、搜索获取等
+
+
+
+### 演示案例
+
+- 某CTF比赛题目解析
+
+  ```
+  # 脚本自定义算法组合逆向
+  ```
+
+  ```
+  题目形式：
+  给你一段加密过的字符和一个脚本文件。
+  
+  题目思路:
+  理解脚本文件的意思，根据脚本文件的加密方式逆向出明文
+  ```
+
+  脚本文件：
+
+  ```php
+  <?php
+  function encrypt($data, $key)
+  {
+  	// 对ISCC使用md5进行加密
+  	$key = md5('ISCC');
+  	$x = 0;
+  	$len = strlen($data);
+  	$klen = strlen($key);
+  	// 将key中的前len个字符作为char字串，
+  	for ($i = 0; $i < $len; $i ++) {
+  		// 如果x == klen，就将x置零
+  		if ($x == $klen) {
+  			$x = 0;
+  		}
+  		// .=串接赋值，提取key中的前len个字符
+  		$char .= $key[$x];
+  		$x += 1;
+  	}
+  	// 获取加密数据和char数组的第i个元素的ASCII码值进行相加之后再对128进行取余
+  	// 将得到的结果再根据ASCII码进行转换，这样就得到了str
+  	for ($i = 0; $i < $len; $i ++) {
+  		$str .= chr((ord($data[$i]) + ord($char[$i])) % 128);
+  	}
+  	
+  	// 将str使用base64算法进行加密
+  	return base64_encode($str);
+  }
+  ?>
+  ```
+
+  模拟解密过程
+
+  ```
+  明文：tan
+  密文：KxMn
+  
+  解密过程：
+  反推：
+  先对密文进行base64解密得到：+'
+  则str = +'
+  str只有三个字符，则说明data和char也只有三个字符
+  ……
+  正推：
+  key：729623334f0aa2784a1599fd374c120d
+  char只有三个字符，因为char是将key中的前len位作为它的值，所以char=729
+  则有
+  (ord(d1) + 55) % 128 = 43 反推得ord(d1) = 116，对应的ascii值为t
+  (ord(d2) + 50) % 128 = 19 反推得ord(d2) = 97，对应的ascii值为a
+  (ord(d3) + 57) % 128 = 39 反推得ord(d3) = 110，对应的ascii值为n
+  ```
+
+  
+
+- 某CMS密码加密解密
+
+  ```
+  # MD5 + salt
+  # 部分CMS密码加密形式 -wp，dz等
+  ```
+
+
+
+- 某URL加密地址的漏洞测试
+
+  ```
+  # AES + Base64 + 自定义
+  # 观察参数值加密字符串，下载源代码分析，函数定义AES加密，涉及模式CBC，
+  128位，加密密码，偏移量，两次base64减去常规一次，填充模式
+  ```
+
+  题目链接：[SQL注入漏洞测试(参数加密)_数据库安全_在线靶场_墨者学院_专注于网络安全人才培养 (mozhe.cn)](https://www.mozhe.cn/bug/detail/SjRRVFpOQWlLWDBJd3hzNGY5cFBiQT09bW96aGUmozhe)
+
+  解题过程：
+
+  - 先对服务器进行端口扫描，可以发现list.zip
+  - 下载zip，得到url解密的脚本，根据脚本写出加密后的sql语句
+
+  ![list代码](imgs\list代码.png)
+
+
+
+- 某实际应用URL地址参数加密
+
+  ```
+  # 搜索特定关键字加密字符串
+  ```
+
+  ```
+  再chrome中搜索
+  inurl:id=MQ==
+  (chrome的搜索语法，搜索网站地址中带有id=MQ==的地址)
+  MQ==是将1使用base64进行加密的结果
+  
+  如果要对搜索到的网址进行sql注入，则sql语句需要使用base64进行加密
+  ```
+
+  
